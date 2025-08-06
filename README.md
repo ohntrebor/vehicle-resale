@@ -13,24 +13,130 @@ API RESTful desenvolvida em **.NET 8** para gerenciamento de revenda de veículo
 - Implementar as melhores práticas de arquitetura de software
 - Garantir escalabilidade e manutenibilidade do código
 
-## 🏗️ Arquitetura
+## **🏗️ Arquitetura do Projeto VehicleResale**
 
-O projeto foi desenvolvido seguindo os princípios de **Clean Architecture** e **SOLID**, garantindo:
-- ✅ Separação de responsabilidades
-- ✅ Baixo acoplamento
-- ✅ Alta coesão
-- ✅ Testabilidade
-- ✅ Manutenibilidade
+Seu projeto segue a **Clean Architecture** com separação clara de responsabilidades. Vou explicar cada camada:
 
-### 📁 Estrutura das Camadas
+## **📋 Visão Geral da Estrutura:**
 
 ```
 VehicleResale/
-├── Domain/              # Entidades e regras de negócio
-├── Application/         # Casos de uso e lógica de aplicação
-├── Infrastructure/      # Implementações e acesso a dados
-└── API/                # Apresentação e endpoints REST
+├── 🎯 VehicleResale.API          # Camada de Apresentação
+├── 🧠 VehicleResale.Application  # Camada de Aplicação  
+├── 💎 VehicleResale.Domain       # Camada de Domínio
+└── 🔌 VehicleResale.Infrastructure # Camada de Infraestrutura
 ```
+
+---
+
+## **🎯 VehicleResale.API (Camada de Apresentação)**
+
+**Responsabilidade:** Interface externa da aplicação
+
+### **O que contém:**
+- **Controllers** 📡 - Endpoints REST (recebem requisições HTTP)
+- **Health** 💊 - Health checks (monitoramento)
+- **Program.cs** ⚙️ - Configuração da aplicação (DI, middleware, etc.)
+- **appsettings.json** 📄 - Configurações (connection strings, URLs)
+- **VehicleResale.API.http** 📝 - Testes de API
+
+### **Função:**
+- Recebe requisições HTTP
+- Valida entrada básica
+- Chama a camada Application
+- Retorna respostas HTTP
+- Configuração de DI e middleware
+
+---
+
+## **🧠 VehicleResale.Application (Camada de Aplicação)**
+
+**Responsabilidade:** Casos de uso e lógica de negócio
+
+### **O que contém:**
+- **Commands** 📤 - Operações que modificam dados (Create, Update, Delete)
+- **Queries** 📥 - Operações de consulta (Get, List)
+- **DTOs** 📦 - Objetos de transferência de dados
+- **Handlers** 🔄 - Processadores dos Commands/Queries (MediatR)
+- **Mappings** 🔀 - Configurações do AutoMapper
+- **Validators** ✅ - Regras de validação (FluentValidation)
+
+### **Função:**
+- Orquestra as operações de negócio
+- Aplica regras de validação
+- Converte dados entre camadas
+- Implementa casos de uso específicos
+
+---
+
+## **💎 VehicleResale.Domain (Camada de Domínio)**
+
+**Responsabilidade:** Regras de negócio puras e entidades
+
+### **O que contém:**
+- **Entities** 🏛️ - Entidades do domínio (Vehicle)
+- **Enums** 📋 - Enumerações do negócio
+- **Interfaces** 🔗 - Contratos (repositórios, serviços)
+
+### **Função:**
+- Define as regras de negócio fundamentais
+- Modela as entidades principais
+- Estabelece contratos para outras camadas
+- **NÃO depende de nenhuma outra camada**
+
+---
+
+## **🔌 VehicleResale.Infrastructure (Camada de Infraestrutura)**
+
+**Responsabilidade:** Implementações técnicas e acesso a dados
+
+### **O que contém:**
+- **Data** 🗄️ - DbContext, configurações do Entity Framework
+- **Migrations** 📋 - Scripts de migração do banco
+- **Repositories** 📚 - Implementações dos repositórios
+
+### **Função:**
+- Acesso ao banco de dados
+- Implementa interfaces do Domain
+- Gerencia persistência de dados
+- Configurações do Entity Framework
+
+---
+
+## **🔄 Fluxo de Dados (Como funciona):**
+
+```
+1. 📱 Cliente faz requisição HTTP
+   ↓
+2. 🎯 API Controller recebe
+   ↓
+3. 🧠 Application Handler processa
+   ↓
+4. 💎 Domain aplica regras de negócio
+   ↓
+5. 🔌 Infrastructure salva no banco
+   ↓
+6. 🔄 Resposta volta pela mesma rota
+```
+
+## **🎯 Benefícios desta Arquitetura:**
+
+- **✅ Testabilidade** - Cada camada pode ser testada isoladamente
+- **✅ Manutenibilidade** - Mudanças em uma camada não afetam outras
+- **✅ Escalabilidade** - Fácil de expandir funcionalidades
+- **✅ Flexibilidade** - Pode trocar banco/framework sem afetar negócio
+- **✅ SOLID** - Seguem os princípios de design
+
+## **💡 Resumo das Responsabilidades:**
+
+| Camada | "Eu cuido de..." |
+|--------|------------------|
+| **API** | "Receber/enviar dados via HTTP" |
+| **Application** | "Processar casos de uso do negócio" |
+| **Domain** | "Regras fundamentais do veículo" |
+| **Infrastructure** | "Salvar/buscar dados no banco" |
+
+**Sua arquitetura está muito bem estruturada!** 🏆
 
 ### 🔧 Padrões Implementados
 
