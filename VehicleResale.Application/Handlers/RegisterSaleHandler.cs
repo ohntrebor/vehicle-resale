@@ -9,20 +9,12 @@ using VehicleResale.Domain.Interfaces;
 
 namespace VehicleResale.Application.Handlers
 {
-    public class RegisterSaleHandler : IRequestHandler<RegisterSaleCommand, VehicleSaleDto>
+    public class RegisterSaleHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        : IRequestHandler<RegisterSaleCommand, VehicleSaleDto>
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-
-        public RegisterSaleHandler(IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
-
         public async Task<VehicleSaleDto> Handle(RegisterSaleCommand request, CancellationToken cancellationToken)
         {
-            var vehicle = await _unitOfWork.Vehicles.GetByIdAsync(request.VehicleId);
+            var vehicle = await unitOfWork.Vehicles.GetByIdAsync(request.VehicleId);
             
             if (vehicle == null)
                 throw new InvalidOperationException($"Vehicle with ID {request.VehicleId} not found");
@@ -32,10 +24,10 @@ namespace VehicleResale.Application.Handlers
             
             vehicle.RegisterSale(request.BuyerCpf, paymentCode);
             
-            await _unitOfWork.Vehicles.UpdateAsync(vehicle);
-            await _unitOfWork.SaveChangesAsync();
+            await unitOfWork.Vehicles.UpdateAsync(vehicle);
+            await unitOfWork.SaveChangesAsync();
 
-            return _mapper.Map<VehicleSaleDto>(vehicle);
+            return mapper.Map<VehicleSaleDto>(vehicle);
         }
     }
 }

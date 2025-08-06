@@ -9,17 +9,9 @@ using VehicleResale.Domain.Interfaces;
 
 namespace VehicleResale.Application.Handlers
 {
-    public class CreateVehicleHandler : IRequestHandler<CreateVehicleCommand, VehicleDto>
+    public class CreateVehicleHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        : IRequestHandler<CreateVehicleCommand, VehicleDto>
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-
-        public CreateVehicleHandler(IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
-
         public async Task<VehicleDto> Handle(CreateVehicleCommand request, CancellationToken cancellationToken)
         {
             var vehicle = new Vehicle(
@@ -30,10 +22,10 @@ namespace VehicleResale.Application.Handlers
                 request.Price
             );
 
-            await _unitOfWork.Vehicles.AddAsync(vehicle);
-            await _unitOfWork.SaveChangesAsync();
+            await unitOfWork.Vehicles.AddAsync(vehicle);
+            await unitOfWork.SaveChangesAsync();
 
-            return _mapper.Map<VehicleDto>(vehicle);
+            return mapper.Map<VehicleDto>(vehicle);
         }
     }
 }

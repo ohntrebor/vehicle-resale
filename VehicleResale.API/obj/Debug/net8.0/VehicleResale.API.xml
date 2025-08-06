@@ -9,6 +9,11 @@
             Controller para health checks
             </summary>
         </member>
+        <member name="M:VehicleResale.API.Controllers.HealthController.#ctor(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckService)">
+            <summary>
+            Controller para health checks
+            </summary>
+        </member>
         <member name="M:VehicleResale.API.Controllers.HealthController.Get">
             <summary>
             Endpoint de health check
@@ -25,6 +30,11 @@
             </summary>
         </member>
         <member name="T:VehicleResale.API.Controllers.VehiclesController">
+            <summary>
+            Controller responsável pelo gerenciamento de veículos
+            </summary>
+        </member>
+        <member name="M:VehicleResale.API.Controllers.VehiclesController.#ctor(MediatR.IMediator)">
             <summary>
             Controller responsável pelo gerenciamento de veículos
             </summary>
@@ -71,6 +81,11 @@
             <returns>Status da operação</returns>
         </member>
         <member name="T:VehicleResale.API.Health.DatabaseHealthCheck">
+            <summary>
+            Health check para verificar a conectividade com o banco de dados
+            </summary>
+        </member>
+        <member name="M:VehicleResale.API.Health.DatabaseHealthCheck.#ctor(VehicleResale.Infrastructure.Data.ApplicationDbContext)">
             <summary>
             Health check para verificar a conectividade com o banco de dados
             </summary>

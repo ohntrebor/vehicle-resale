@@ -4,15 +4,9 @@ using VehicleResale.Application.DTOs;
 
 namespace VehicleResale.Application.Commands
 {
-    public class RegisterSaleCommand : IRequest<VehicleSaleDto>
+    public class RegisterSaleCommand(RegisterSaleDto dto) : IRequest<VehicleSaleDto>
     {
-        public Guid VehicleId { get; set; }
-        public string BuyerCpf { get; set; }
-
-        public RegisterSaleCommand(RegisterSaleDto dto)
-        {
-            VehicleId = dto.VehicleId;
-            BuyerCpf = dto.BuyerCpf;
-        }
+        public Guid VehicleId { get; set; } = dto.VehicleId;
+        public string BuyerCpf { get; set; } = dto.BuyerCpf;
     }
 }

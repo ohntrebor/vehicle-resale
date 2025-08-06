@@ -4,23 +4,13 @@ using VehicleResale.Application.DTOs;
 
 namespace VehicleResale.Application.Commands
 {
-    public class UpdateVehicleCommand : IRequest<VehicleDto>
+    public class UpdateVehicleCommand(UpdateVehicleDto dto) : IRequest<VehicleDto>
     {
-        public Guid Id { get; set; }
-        public string Brand { get; set; }
-        public string Model { get; set; }
-        public int Year { get; set; }
-        public string Color { get; set; }
-        public decimal Price { get; set; }
-
-        public UpdateVehicleCommand(UpdateVehicleDto dto)
-        {
-            Id = dto.Id;
-            Brand = dto.Brand;
-            Model = dto.Model;
-            Year = dto.Year;
-            Color = dto.Color;
-            Price = dto.Price;
-        }
+        public Guid Id { get; set; } = dto.Id;
+        public string Brand { get; set; } = dto.Brand;
+        public string Model { get; set; } = dto.Model;
+        public int Year { get; set; } = dto.Year;
+        public string Color { get; set; } = dto.Color;
+        public decimal Price { get; set; } = dto.Price;
     }
 }

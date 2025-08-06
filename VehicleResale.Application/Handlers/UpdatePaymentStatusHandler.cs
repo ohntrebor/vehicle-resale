@@ -5,18 +5,11 @@ using VehicleResale.Domain.Interfaces;
 
 namespace VehicleResale.Application.Handlers
 {
-    public class UpdatePaymentStatusHandler : IRequestHandler<UpdatePaymentStatusCommand, bool>
+    public class UpdatePaymentStatusHandler(IUnitOfWork unitOfWork) : IRequestHandler<UpdatePaymentStatusCommand, bool>
     {
-        private readonly IUnitOfWork _unitOfWork;
-
-        public UpdatePaymentStatusHandler(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
-
         public async Task<bool> Handle(UpdatePaymentStatusCommand request, CancellationToken cancellationToken)
         {
-            var vehicle = await _unitOfWork.Vehicles.GetByPaymentCodeAsync(request.PaymentCode);
+            var vehicle = await unitOfWork.Vehicles.GetByPaymentCodeAsync(request.PaymentCode);
             
             if (vehicle == null)
                 return false;
@@ -30,8 +23,8 @@ namespace VehicleResale.Application.Handlers
 
             vehicle.UpdatePaymentStatus(status);
             
-            await _unitOfWork.Vehicles.UpdateAsync(vehicle);
-            await _unitOfWork.SaveChangesAsync();
+            await unitOfWork.Vehicles.UpdateAsync(vehicle);
+            await unitOfWork.SaveChangesAsync();
 
             return true;
         }

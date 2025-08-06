@@ -14,15 +14,8 @@ namespace VehicleResale.API.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
-    public class VehiclesController : ControllerBase
+    public class VehiclesController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public VehiclesController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
         /// <summary>
         /// Cadastra um novo veículo para venda
         /// </summary>
@@ -34,7 +27,7 @@ namespace VehicleResale.API.Controllers
         public async Task<IActionResult> CreateVehicle([FromBody] CreateVehicleDto dto)
         {
             var command = new CreateVehicleCommand(dto);
-            var result = await _mediator.Send(command);
+            var result = await mediator.Send(command);
             return CreatedAtAction(nameof(GetAvailableVehicles), new { id = result.Id }, result);
         }
 
@@ -54,7 +47,7 @@ namespace VehicleResale.API.Controllers
                 return BadRequest("ID mismatch");
 
             var command = new UpdateVehicleCommand(dto);
-            var result = await _mediator.Send(command);
+            var result = await mediator.Send(command);
             return Ok(result);
         }
 
@@ -67,7 +60,7 @@ namespace VehicleResale.API.Controllers
         public async Task<IActionResult> GetAvailableVehicles()
         {
             var query = new GetAvailableVehiclesQuery();
-            var result = await _mediator.Send(query);
+            var result = await mediator.Send(query);
             return Ok(result);
         }
 
@@ -80,7 +73,7 @@ namespace VehicleResale.API.Controllers
         public async Task<IActionResult> GetSoldVehicles()
         {
             var query = new GetSoldVehiclesQuery();
-            var result = await _mediator.Send(query);
+            var result = await mediator.Send(query);
             return Ok(result);
         }
 
@@ -96,7 +89,7 @@ namespace VehicleResale.API.Controllers
         public async Task<IActionResult> RegisterSale([FromBody] RegisterSaleDto dto)
         {
             var command = new RegisterSaleCommand(dto);
-            var result = await _mediator.Send(command);
+            var result = await mediator.Send(command);
             return Ok(result);
         }
 
@@ -112,7 +105,7 @@ namespace VehicleResale.API.Controllers
         public async Task<IActionResult> PaymentWebhook([FromBody] PaymentWebhookDto dto)
         {
             var command = new UpdatePaymentStatusCommand(dto);
-            var success = await _mediator.Send(command);
+            var success = await mediator.Send(command);
             
             if (success)
                 return Ok(new { message = "Payment status updated successfully" });
