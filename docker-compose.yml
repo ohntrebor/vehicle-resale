@@ -64,7 +64,7 @@ services:
       - ASPNETCORE_URLS=http://+:80
       
       # String de conexão - note que usa 'postgres' como host (nome do serviço)
-      - ConnectionStrings__DefaultConnection=Host=localhost;Database=vehicle-db;Username=admin;Password=ra02xbo-P;Port=5432
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=vehicle-db;Username=admin;Password=ra02xbo-P;Port=5432
     
     # Mapeamento de portas
     ports:
