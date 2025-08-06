@@ -1,0 +1,98 @@
+# ===========================================
+# DOCKER COMPOSE - Orquestração Local
+# ===========================================
+# Define todos os serviços necessários para rodar a aplicação localmente
+# Comando para executar: docker-compose up -d
+
+version: '3.8'
+
+services:
+  # ===========================================
+  # SERVIÇO: SQL Server Database
+  # ===========================================
+  sqlserver:
+    # Imagem oficial do SQL Server 2022
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    
+    # Nome do container para fácil identificação
+    container_name: vehicle-resale-db
+    
+    # Variáveis de ambiente para configurar o SQL Server
+    environment:
+      - ACCEPT_EULA=Y                           # Aceita os termos de uso
+      - SA_PASSWORD=YourStr0ngPassword!         # Senha do usuário SA (admin)
+      - MSSQL_PID=Express                       # Edição Express (gratuita)
+    
+    # Mapeamento de portas HOST:CONTAINER
+    ports:
+      - "1433:1433"                              # Porta padrão do SQL Server
+    
+    # Volume para persistir dados do banco
+    volumes:
+      - sqlserver-data:/var/opt/mssql            # Dados persistem após restart
+    
+    # Rede interna para comunicação entre containers
+    networks:
+      - vehicle-resale-network
+    
+    # Healthcheck para verificar se o banco está pronto
+    healthcheck:
+      # Comando para testar conexão com o banco
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "YourStr0ngPassword!", "-Q", "SELECT 1"]
+      interval: 10s        # Verifica a cada 10 segundos
+      timeout: 3s          # Timeout de 3 segundos
+      retries: 10          # Tenta 10 vezes
+      start_period: 10s    # Aguarda 10s antes de começar
+
+  # ===========================================
+  # SERVIÇO: API .NET 8
+  # ===========================================
+  api:
+    # Build da imagem usando o Dockerfile local
+    build:
+      context: .           # Contexto é a pasta atual
+      dockerfile: Dockerfile
+    
+    # Nome do container
+    container_name: vehicle-resale-api
+    
+    # Variáveis de ambiente para a aplicação
+    environment:
+      # Ambiente de desenvolvimento (mostra erros detalhados)
+      - ASPNETCORE_ENVIRONMENT=Development
+      
+      # URL que a aplicação vai escutar
+      - ASPNETCORE_URLS=http://+:80
+      
+      # String de conexão - note que usa 'sqlserver' como host (nome do serviço)
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=VehicleResaleDB;User Id=sa;Password=YourStr0ngPassword!;TrustServerCertificate=true
+    
+    # Mapeamento de portas
+    ports:
+      - "5000:80"          # Acesse a API em http://localhost:5000
+    
+    # Dependências - só inicia após o SQL Server estar saudável
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    
+    # Mesma rede do banco para comunicação interna
+    networks:
+      - vehicle-resale-network
+    
+    # Política de restart
+    restart: unless-stopped    # Reinicia automaticamente se cair
+
+# ===========================================
+# VOLUMES - Armazenamento Persistente
+# ===========================================
+volumes:
+  sqlserver-data:              # Volume nomeado para dados do SQL Server
+    driver: local              # Driver local do Docker
+
+# ===========================================
+# NETWORKS - Rede para Comunicação
+# ===========================================
+networks:
+  vehicle-resale-network:      # Rede isolada para os serviços
+    driver: bridge             # Driver bridge (padrão)

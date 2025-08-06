@@ -1,0 +1,101 @@
+# ===========================================
+# DEPLOYMENT - Vehicle Resale API
+# ===========================================
+# Define como a API será executada no cluster
+# Configurado para alta disponibilidade com 3 réplicas
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vehicle-resale-api
+  namespace: vehicle-resale
+  labels:
+    app: vehicle-resale-api
+    tier: backend
+    version: v1
+spec:
+  # 3 réplicas para alta disponibilidade
+  replicas: 3
+  
+  # Estratégia de update - RollingUpdate para zero downtime
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1        # Máximo de pods extras durante update
+      maxUnavailable: 0  # Nenhum pod indisponível durante update
+  
+  # Seletor de pods
+  selector:
+    matchLabels:
+      app: vehicle-resale-api
+  
+  # Template do Pod
+  template:
+    metadata:
+      labels:
+        app: vehicle-resale-api
+        tier: backend
+        version: v1
+    spec:
+      containers:
+        - name: api
+          # Imagem da API - ajuste para seu registry
+          image: vehicle-resale-api:latest
+          
+          # Política de pull - Always para produção
+          imagePullPolicy: Always  # IfNotPresent para desenvolvimento local
+          
+          # Porta da aplicação
+          ports:
+            - containerPort: 80
+              name: http
+          
+          # Variáveis de ambiente do ConfigMap
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: vehicle-resale-config
+                  key: ASPNETCORE_ENVIRONMENT
+
+            - name: ASPNETCORE_URLS
+              valueFrom:
+                configMapKeyRef:
+                  name: vehicle-resale-config
+                  key: ASPNETCORE_URLS
+            
+            # Connection string do Secret
+            - name: ConnectionStrings__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: vehicle-resale-secrets
+                  key: connection-string
+          
+          # Recursos do container
+          resources:
+            requests:
+              memory: "256Mi"  # 256MB RAM mínimo
+              cpu: "250m"      # 0.25 CPU
+            limits:
+              memory: "512Mi"  # 512MB RAM máximo
+              cpu: "500m"      # 0.5 CPU
+          
+          # Probe de Liveness - reinicia o pod se falhar
+          livenessProbe:
+            httpGet:
+              path: /api/health/live
+              port: 80
+            initialDelaySeconds: 30  # Aguarda 30s após start
+            periodSeconds: 10        # Verifica a cada 10s
+            timeoutSeconds: 5        # Timeout de 5s
+            failureThreshold: 3      # Falha após 3 tentativas
+          
+          # Probe de Readiness - remove do load balancer se falhar
+          readinessProbe:
+            httpGet:
+              path: /api/health/ready
+              port: 80
+            initialDelaySeconds: 5   # Aguarda 5s após start
+            periodSeconds: 5         # Verifica a cada 5s
+            timeoutSeconds: 3        # Timeout de 3s
+            successThreshold: 1      # Sucesso após 1 check OK

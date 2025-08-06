@@ -1,0 +1,40 @@
+# ===========================================
+# SERVICE - Expõe a API externamente
+# ===========================================
+# LoadBalancer para acesso externo (ou use Ingress)
+# NodePort para clusters locais (Minikube, Kind)
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: vehicle-resale-api-service
+  namespace: vehicle-resale
+  labels:
+    app: vehicle-resale-api
+  annotations:
+  # Anotações específicas do cloud provider
+  # service.beta.kubernetes.io/aws-load-balancer-type: "nlb"  # Para AWS
+  # service.beta.kubernetes.io/azure-load-balancer-internal: "true"  # Para Azure interno
+spec:
+  # Seletor - roteia para pods da API
+  selector:
+    app: vehicle-resale-api
+  
+  # Portas do serviço
+  ports:
+    - port: 80         # Porta do serviço
+      targetPort: 80   # Porta do container
+      protocol: TCP
+      name: http
+      # nodePort: 30080  # Descomente para NodePort específico
+  
+  # Tipo do serviço
+  type: LoadBalancer  # Use NodePort para desenvolvimento local
+  
+  # Configurações adicionais
+  sessionAffinity: None  # ClientIP para sticky sessions
+  
+  # Para LoadBalancer em cloud
+  # loadBalancerIP: "x.x.x.x"  # IP estático
+  # loadBalancerSourceRanges:   # Whitelist de IPs
+  # - "x.x.x.x/32"

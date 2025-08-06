@@ -1,0 +1,13 @@
+# ===========================================
+# NAMESPACE - Isolamento lógico no Kubernetes
+# ===========================================
+# Cria um namespace dedicado para isolar todos os recursos da aplicação
+# Benefícios: organização, segurança, quotas de recursos
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: vehicle-resale
+  labels:
+    app: vehicle-resale
+    environment: production

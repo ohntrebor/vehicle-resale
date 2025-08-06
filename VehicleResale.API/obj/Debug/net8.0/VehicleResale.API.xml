@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VehicleResale.API</name>
+    </assembly>
+    <members>
+        <member name="T:VehicleResale.API.Controllers.HealthController">
+            <summary>
+            Controller para health checks
+            </summary>
+        </member>
+        <member name="M:VehicleResale.API.Controllers.HealthController.Get">
+            <summary>
+            Endpoint de health check
+            </summary>
+        </member>
+        <member name="M:VehicleResale.API.Controllers.HealthController.GetLive">
+            <summary>
+            Endpoint simplificado para liveness probe
+            </summary>
+        </member>
+        <member name="M:VehicleResale.API.Controllers.HealthController.GetReady">
+            <summary>
+            Endpoint para readiness probe
+            </summary>
+        </member>
+        <member name="T:VehicleResale.API.Controllers.VehiclesController">
+            <summary>
+            Controller responsável pelo gerenciamento de veículos
+            </summary>
+        </member>
+        <member name="M:VehicleResale.API.Controllers.VehiclesController.CreateVehicle(VehicleResale.Application.DTOs.CreateVehicleDto)">
+            <summary>
+            Cadastra um novo veículo para venda
+            </summary>
+            <param name="dto">Dados do veículo</param>
+            <returns>Veículo cadastrado</returns>
+        </member>
+        <member name="M:VehicleResale.API.Controllers.VehiclesController.UpdateVehicle(System.Guid,VehicleResale.Application.DTOs.UpdateVehicleDto)">
+            <summary>
+            Atualiza os dados de um veículo
+            </summary>
+            <param name="id">ID do veículo</param>
+            <param name="dto">Dados atualizados do veículo</param>
+            <returns>Veículo atualizado</returns>
+        </member>
+        <member name="M:VehicleResale.API.Controllers.VehiclesController.GetAvailableVehicles">
+            <summary>
+            Lista todos os veículos disponíveis para venda (ordenados por preço)
+            </summary>
+            <returns>Lista de veículos disponíveis</returns>
+        </member>
+        <member name="M:VehicleResale.API.Controllers.VehiclesController.GetSoldVehicles">
+            <summary>
+            Lista todos os veículos vendidos (ordenados por preço)
+            </summary>
+            <returns>Lista de veículos vendidos</returns>
+        </member>
+        <member name="M:VehicleResale.API.Controllers.VehiclesController.RegisterSale(VehicleResale.Application.DTOs.RegisterSaleDto)">
+            <summary>
+            Registra a venda de um veículo
+            </summary>
+            <param name="dto">Dados da venda</param>
+            <returns>Informações da venda registrada</returns>
+        </member>
+        <member name="M:VehicleResale.API.Controllers.VehiclesController.PaymentWebhook(VehicleResale.Application.DTOs.PaymentWebhookDto)">
+            <summary>
+            Webhook para atualização do status de pagamento
+            </summary>
+            <param name="dto">Dados do webhook de pagamento</param>
+            <returns>Status da operação</returns>
+        </member>
+        <member name="T:VehicleResale.API.Health.DatabaseHealthCheck">
+            <summary>
+            Health check para verificar a conectividade com o banco de dados
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,21 @@
+# ===========================================
+# CONFIGMAP - Configurações não sensíveis
+# ===========================================
+# Armazena configurações que podem ser alteradas sem rebuild da imagem
+# Usado para variáveis de ambiente e arquivos de configuração
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vehicle-resale-config
+  namespace: vehicle-resale
+data:
+  # Ambiente da aplicação (Development, Staging, Production)
+  ASPNETCORE_ENVIRONMENT: "Production"
+  
+  # URLs que a aplicação vai escutar
+  ASPNETCORE_URLS: "http://+:80"
+  
+  # Configurações adicionais podem ser adicionadas aqui
+  # LOG_LEVEL: "Information"
+  # ENABLE_SWAGGER: "false"

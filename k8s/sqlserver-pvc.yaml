@@ -1,0 +1,29 @@
+# ===========================================
+# PVC - Persistent Volume Claim para SQL Server
+# ===========================================
+# Solicita armazenamento persistente para o banco de dados
+# Dados sobrevivem a restarts e updates do pod
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sqlserver-pvc
+  namespace: vehicle-resale
+spec:
+  # Modo de acesso - ReadWriteOnce = um único pod pode escrever
+  accessModes:
+    - ReadWriteOnce
+  
+  # Recursos solicitados
+  resources:
+    requests:
+      storage: 5Gi  # 5 Gigabytes de armazenamento
+  
+  # Classe de armazenamento (depende do seu cluster)
+  # Use 'standard' para clusters locais ou 'gp2' para AWS EKS
+  storageClassName: standard
+  
+  # Em produção, considere:
+  # - Aumentar o tamanho conforme necessário
+  # - Usar storage classes com backup automático
+  # - Configurar snapshots periódicos

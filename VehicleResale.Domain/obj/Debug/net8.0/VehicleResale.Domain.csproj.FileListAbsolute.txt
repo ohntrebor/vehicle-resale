@@ -1,0 +1,13 @@
+C:\Users\Bob\OneDrive\Documentos\GitHub\tech-challenge-soat-fase-2\VehicleResaleAPI\VehicleResale.Domain\bin\Debug\net8.0\VehicleResale.Domain.deps.json
+C:\Users\Bob\OneDrive\Documentos\GitHub\tech-challenge-soat-fase-2\VehicleResaleAPI\VehicleResale.Domain\bin\Debug\net8.0\VehicleResale.Domain.dll
+C:\Users\Bob\OneDrive\Documentos\GitHub\tech-challenge-soat-fase-2\VehicleResaleAPI\VehicleResale.Domain\bin\Debug\net8.0\VehicleResale.Domain.pdb
+C:\Users\Bob\OneDrive\Documentos\GitHub\tech-challenge-soat-fase-2\VehicleResaleAPI\VehicleResale.Domain\obj\Debug\net8.0\VehicleResale.Domain.csproj.AssemblyReference.cache
+C:\Users\Bob\OneDrive\Documentos\GitHub\tech-challenge-soat-fase-2\VehicleResaleAPI\VehicleResale.Domain\obj\Debug\net8.0\VehicleResale.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Bob\OneDrive\Documentos\GitHub\tech-challenge-soat-fase-2\VehicleResaleAPI\VehicleResale.Domain\obj\Debug\net8.0\VehicleResale.Domain.AssemblyInfoInputs.cache
+C:\Users\Bob\OneDrive\Documentos\GitHub\tech-challenge-soat-fase-2\VehicleResaleAPI\VehicleResale.Domain\obj\Debug\net8.0\VehicleResale.Domain.AssemblyInfo.cs
+C:\Users\Bob\OneDrive\Documentos\GitHub\tech-challenge-soat-fase-2\VehicleResaleAPI\VehicleResale.Domain\obj\Debug\net8.0\VehicleResale.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Bob\OneDrive\Documentos\GitHub\tech-challenge-soat-fase-2\VehicleResaleAPI\VehicleResale.Domain\obj\Debug\net8.0\VehicleResale.Domain.sourcelink.json
+C:\Users\Bob\OneDrive\Documentos\GitHub\tech-challenge-soat-fase-2\VehicleResaleAPI\VehicleResale.Domain\obj\Debug\net8.0\VehicleResale.Domain.dll
+C:\Users\Bob\OneDrive\Documentos\GitHub\tech-challenge-soat-fase-2\VehicleResaleAPI\VehicleResale.Domain\obj\Debug\net8.0\refint\VehicleResale.Domain.dll
+C:\Users\Bob\OneDrive\Documentos\GitHub\tech-challenge-soat-fase-2\VehicleResaleAPI\VehicleResale.Domain\obj\Debug\net8.0\VehicleResale.Domain.pdb
+C:\Users\Bob\OneDrive\Documentos\GitHub\tech-challenge-soat-fase-2\VehicleResaleAPI\VehicleResale.Domain\obj\Debug\net8.0\ref\VehicleResale.Domain.dll
