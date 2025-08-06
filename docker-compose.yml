@@ -6,28 +6,29 @@
 
 services:
   # ===========================================
-  # SERVIÇO: SQL Server Database
+  # SERVIÇO: PostgreSQL Database
   # ===========================================
-  sqlserver:
-    # Imagem oficial do SQL Server 2022
-    image: mcr.microsoft.com/mssql/server:2022-latest
+  postgres:
+    # Imagem oficial do PostgreSQL 16
+    image: postgres:16-alpine
     
     # Nome do container para fácil identificação
     container_name: vehicle-resale-db
     
-    # Variáveis de ambiente para configurar o SQL Server
+    # Variáveis de ambiente para configurar o PostgreSQL
     environment:
-      - ACCEPT_EULA=Y                           # Aceita os termos de uso
-      - SA_PASSWORD=YourStr0ngPassword!         # Senha do usuário SA (admin)
-      - MSSQL_PID=Express                       # Edição Express (gratuita)
+      - POSTGRES_USER=admin                      # Usuário do banco
+      - POSTGRES_PASSWORD=ra02xbo-P              # Senha do usuário
+      - POSTGRES_DB=vehicle-db                   # Nome do banco de dados
+      - PGDATA=/var/lib/postgresql/data/pgdata  # Diretório dos dados
     
     # Mapeamento de portas HOST:CONTAINER
     ports:
-      - "1433:1433"                              # Porta padrão do SQL Server
+      - "5432:5432"                              # Porta padrão do PostgreSQL
     
     # Volume para persistir dados do banco
     volumes:
-      - sqlserver-data:/var/opt/mssql            # Dados persistem após restart
+      - postgres-data:/var/lib/postgresql/data   # Dados persistem após restart
     
     # Rede interna para comunicação entre containers
     networks:
@@ -36,11 +37,11 @@ services:
     # Healthcheck para verificar se o banco está pronto
     healthcheck:
       # Comando para testar conexão com o banco
-      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "YourStr0ngPassword!", "-Q", "SELECT 1"]
+      test: ["CMD-SHELL", "pg_isready -U admin -d vehicle-db"]
       interval: 10s        # Verifica a cada 10 segundos
-      timeout: 3s          # Timeout de 3 segundos
+      timeout: 5s          # Timeout de 5 segundos
       retries: 10          # Tenta 10 vezes
-      start_period: 10s    # Aguarda 10s antes de começar
+      start_period: 30s    # Aguarda 30s antes de começar
 
   # ===========================================
   # SERVIÇO: API .NET 8
@@ -62,16 +63,16 @@ services:
       # URL que a aplicação vai escutar
       - ASPNETCORE_URLS=http://+:80
       
-      # String de conexão - note que usa 'sqlserver' como host (nome do serviço)
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=VehicleResaleDB;User Id=sa;Password=YourStr0ngPassword!;TrustServerCertificate=true
+      # String de conexão - note que usa 'postgres' como host (nome do serviço)
+      - ConnectionStrings__DefaultConnection=Host=localhost;Database=vehicle-db;Username=admin;Password=ra02xbo-P;Port=5432
     
     # Mapeamento de portas
     ports:
       - "5000:80"          # Acesse a API em http://localhost:5000
     
-    # Dependências - só inicia após o SQL Server estar saudável
+    # Dependências - só inicia após o PostgreSQL estar saudável
     depends_on:
-      sqlserver:
+      postgres:
         condition: service_healthy
     
     # Mesma rede do banco para comunicação interna
@@ -85,12 +86,14 @@ services:
 # VOLUMES - Armazenamento Persistente
 # ===========================================
 volumes:
-  sqlserver-data:              # Volume nomeado para dados do SQL Server
+  postgres-data:               # Volume nomeado para dados do PostgreSQL
     driver: local              # Driver local do Docker
+  pgadmin-data:                # Volume para configurações do pgAdmin
+    driver: local
 
 # ===========================================
 # NETWORKS - Rede para Comunicação
 # ===========================================
 networks:
   vehicle-resale-network:      # Rede isolada para os serviços
-    driver: bridge             # Driver bridge (padrão)
+    driver: bridge             # Driver bridge

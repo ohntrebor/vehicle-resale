@@ -1,8 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using VehicleResale.Domain.Entities;
 using VehicleResale.Domain.Interfaces;
 using VehicleResale.Infrastructure.Data;
