@@ -36,8 +36,12 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 
 # Expõe as portas que a aplicação usa
-EXPOSE 80    # HTTP
-EXPOSE 443   # HTTPS (se configurado)
+
+ # HTTP
+EXPOSE 80  
+
+ # HTTPS
+EXPOSE 443
 
 # Copia os arquivos publicados do stage anterior
 COPY --from=publish /app/publish .

@@ -4,8 +4,6 @@
 # Define todos os serviços necessários para rodar a aplicação localmente
 # Comando para executar: docker-compose up -d
 
-version: '3.8'
-
 services:
   # ===========================================
   # SERVIÇO: SQL Server Database
