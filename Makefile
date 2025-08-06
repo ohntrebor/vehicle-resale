@@ -22,6 +22,9 @@ restore: ## Restore NuGet packages
 migration-add: ## Add a new migration (usage: make migration-add NAME=MigrationName)
 	dotnet ef migrations add $(NAME) -p VehicleResale.Infrastructure -s VehicleResale.API -o Data/Migrations
 
+migration-remove: ## Remove a new migration
+	Remove-Item -Recurse -Force VehicleResale.Infrastructure/Migrations
+
 migration-update: ## Update database with migrations
 	dotnet ef database update -p VehicleResale.Infrastructure -s VehicleResale.API
 

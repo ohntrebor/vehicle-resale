@@ -1,30 +1,92 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using VehicleResale.Domain.Enums;
 
 namespace VehicleResale.Domain.Entities;
 
+[Table("vehicles")]
 /// <summary>
 /// Entidade que representa um veículo no sistema
 /// </summary>
 public class Vehicle
 {
+    [Key]
+    [Column("id")]
     public Guid Id { get; private set; }
-    public string Brand { get; private set; } // Marca
-    public string Model { get; private set; } // Modelo
-    public int Year { get; private set; } // Ano
-    public string Color { get; private set; } // Cor
-    public decimal Price { get; private set; } // Preço
-    public bool IsSold { get; private set; } // Indica se foi vendido
+    
+    /// <summary>
+    /// Marca do veículo
+    /// </summary>
+    [Column("brand")]
+    public string Brand { get; private set; } 
+    
+    /// <summary>
+    /// Modelo do veículo
+    /// </summary>
+    [Column("model")]
+    public string Model { get; private set; }
+    
+    /// <summary>
+    /// Ano do veículo
+    /// </summary>
+    [Column("year")]
+    public int Year { get; private set; }
+    
+    /// <summary>
+    /// Cor do veículo
+    /// </summary>
+    [Column("color")]
+    public string Color { get; private set; }
+    
+    /// <summary>
+    /// Preço do veículo
+    /// </summary>
+    [Column("price")]
+    public decimal Price { get; private set; }
+    
+    /// <summary>
+    /// Indica se o veículo foi vendido
+    /// </summary>
+    [Column("is_sold")]
+    public bool IsSold { get; private set; }
+    
+    /// <summary>
+    /// Data de criação do registro
+    /// </summary>
+    [Column("created_at")]
     public DateTime CreatedAt { get; private set; }
+    
+    /// <summary>
+    /// Data da última atualização do registro
+    /// </summary>
+    [Column("updated_at")]
     public DateTime? UpdatedAt { get; private set; }
     
-    // Informações de venda
+    /// <summary>
+    /// Identificador do comprador (CPF)
+    /// </summary>
+    [Column("buyer_cpf")]
     public string? BuyerCpf { get; private set; }
+    
+    /// <summary>
+    /// Data da venda do veículo
+    /// </summary>
+    [Column("sale_date")]
     public DateTime? SaleDate { get; private set; }
+    
+    /// <summary>
+    /// Código de pagamento
+    /// </summary>
+    [Column("payment_code")]
     public string? PaymentCode { get; private set; }
+    
+    /// <summary>
+    /// Status do pagamento
+    /// </summary>
+    [Column("payment_status")]
     public PaymentStatus? PaymentStatus { get; private set; }
 
-    protected Vehicle() { } // Para EF Core
+    protected Vehicle() { }
 
     public Vehicle(string brand, string model, int year, string color, decimal price)
     {

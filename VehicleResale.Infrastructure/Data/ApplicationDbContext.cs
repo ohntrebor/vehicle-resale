@@ -13,8 +13,11 @@ namespace VehicleResale.Infrastructure.Data
 
             modelBuilder.Entity<Vehicle>(entity =>
             {
+                // Nome da tabela em snake_case
+                entity.ToTable("vehicles");
+        
                 entity.HasKey(e => e.Id);
-                
+        
                 entity.Property(e => e.Brand)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -36,11 +39,23 @@ namespace VehicleResale.Infrastructure.Data
                 entity.Property(e => e.PaymentCode)
                     .HasMaxLength(50);
 
+                // Índice- payment_code diferente de null para performance
                 entity.HasIndex(e => e.PaymentCode)
+                    .HasDatabaseName("ix_vehicles_payment_code")
                     .IsUnique()
-                    .HasFilter("[PaymentCode] IS NOT NULL");
+                    .HasFilter("payment_code IS NOT NULL");
 
-                entity.HasIndex(e => e.IsSold);
+                entity.HasIndex(e => e.IsSold)
+                    .HasDatabaseName("ix_vehicles_is_sold");
+
+                // Índice - Para buscar vendas por CPF do comprador
+                entity.HasIndex(e => e.BuyerCpf)
+                    .HasDatabaseName("ix_vehicles_buyer_cpf")
+                    .HasFilter("buyer_cpf IS NOT NULL");
+
+                // Índice composto - para queries de vendas (is_sold + sale_date)
+                entity.HasIndex(e => new { e.IsSold, e.SaleDate })
+                    .HasDatabaseName("ix_vehicles_sold_date");
             });
         }
     }

@@ -37,7 +37,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     
     options.UseNpgsql(connectionString, npgsqlOptions =>
     {
-        npgsqlOptions.MigrationsAssembly("VehicleResale.API");
+        npgsqlOptions.MigrationsAssembly("VehicleResale.Infrastructure");
         npgsqlOptions.EnableRetryOnFailure(
             maxRetryCount: 3,
             maxRetryDelay: TimeSpan.FromSeconds(10),
@@ -151,7 +151,7 @@ using (var scope = app.Services.CreateScope())
             try
             {
                 // Criar banco se não existir e aplicar migrations
-                context.Database.EnsureCreated();
+                context.Database.Migrate();
                 // OU usar Migrate() se você tiver migrations criadas:
                 // context.Database.Migrate();
                 
