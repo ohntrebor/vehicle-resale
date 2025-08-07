@@ -3,19 +3,51 @@
 # ===========================================
 # Armazena configurações que podem ser alteradas sem rebuild da imagem
 # Usado para variáveis de ambiente e arquivos de configuração
+# IMPORTANTE: NÃO coloque senhas ou dados sensíveis aqui!
 
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  # Nome do ConfigMap que será referenciado pelos Deployments
   name: vehicle-resale-config
+  
+  # Namespace onde o ConfigMap será criado
   namespace: vehicle-resale
+  
+  # Labels para organização
+  labels:
+    app: vehicle-resale
+    component: configuration
+
 data:
-  # Ambiente da aplicação (Development, Staging, Production)
+  # ===========================================
+  # Configurações da Aplicação .NET
+  # ===========================================
+  
+  # Ambiente da aplicação
+  # Development = logs detalhados, erros completos
+  # Production = logs otimizados, erros genéricos
   ASPNETCORE_ENVIRONMENT: "Production"
   
   # URLs que a aplicação vai escutar
+  # http://+:80 = escuta em todas interfaces na porta 80
   ASPNETCORE_URLS: "http://+:80"
   
-  # Configurações adicionais podem ser adicionadas aqui
-  # LOG_LEVEL: "Information"
-  # ENABLE_SWAGGER: "false"
+  # Nível de log
+  # Trace, Debug, Information, Warning, Error, Critical
+  LOG_LEVEL: "Information"
+  
+  # Habilitar Swagger em produção
+  # true = swagger disponível, false = swagger desabilitado
+  ENABLE_SWAGGER: "true"
+  
+  # Timeout de requisições em segundos
+  REQUEST_TIMEOUT: "30"
+  
+  # Configurações de CORS
+  CORS_ORIGINS: "*"  # Em produção, especifique os domínios permitidos
+  
+  # Configurações de Health Check
+  HEALTH_CHECK_PATH: "/health"
+  LIVENESS_PATH: "/health/live"
+  READINESS_PATH: "/health/ready"
