@@ -1,4 +1,4 @@
-﻿name: CI/CD Pipeline
+﻿name: 🏎️ CI/CD
 
 on:
   push:
@@ -7,11 +7,35 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-test:
+  # Build da solução
+  build:
+    name: 🛠️ Build Solution
     runs-on: ubuntu-latest
-    
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build Project
+        run: dotnet build --no-restore --configuration Release
+
+  # Testes unitários
+  test:
+    name: 🧪 Run Tests
+    runs-on: ubuntu-latest
+    needs: [build]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -22,17 +46,56 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build --no-restore --configuration Release
 
-      - name: Test
-        run: dotnet test --no-build --verbosity normal
+      - name: Run Tests
+        run: dotnet test --no-build --verbosity normal --configuration Release
+
+  # Build da imagem Docker
+  docker-build:
+    name: 🐋 Docker Build
+    runs-on: ubuntu-latest
+    needs: [build, test]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Build Docker image
         run: docker build -t vehicle-resale-api:${{ github.sha }} .
 
-      - name: Push to Registry
-        if: github.ref == 'refs/heads/main'
+      - name: Save Docker image
+        run: docker save vehicle-resale-api:${{ github.sha }} > vehicle-resale-api.tar
+
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-image
+          path: vehicle-resale-api.tar
+
+  # Push para registry (apenas em main)
+  docker-push:
+    name: 🚀 Docker Push
+    runs-on: ubuntu-latest
+    needs: [docker-build]
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Download Docker image artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: docker-image
+
+      - name: Load Docker image
+        run: docker load < vehicle-resale-api.tar
+
+      - name: Login to Docker Hub
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+      - name: Tag and Push Docker image
         run: |
-          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
           docker tag vehicle-resale-api:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/vehicle-resale-api:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/vehicle-resale-api:latest
