@@ -1,9 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using VehicleResale.Application.DTOs;
 using VehicleResale.Application.Queries;
 using VehicleResale.Domain.Interfaces;

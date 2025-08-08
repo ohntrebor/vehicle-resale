@@ -48,6 +48,6 @@ namespace VehicleResale.Application.DTOs
     public class PaymentWebhookDto
     {
         public string PaymentCode { get; set; }
-        public string Status { get; set; } // "confirmed" ou "cancelled"
+        public string Status { get; set; }
     }
 }

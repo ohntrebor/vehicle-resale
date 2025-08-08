@@ -18,7 +18,7 @@ namespace VehicleResale.Application.Handlers
             {
                 "confirmed" => PaymentStatus.Confirmed,
                 "cancelled" => PaymentStatus.Cancelled,
-                _ => throw new InvalidOperationException($"Invalid payment status: {request.Status}")
+                _ => throw new InvalidOperationException($"Status de pagamento inválido: [{request.Status}]. Deve ser 'confirmed' ou 'cancelled'.")
             };
 
             vehicle.UpdatePaymentStatus(status);

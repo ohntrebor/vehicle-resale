@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using VehicleResale.Domain.Interfaces;
+﻿using VehicleResale.Domain.Interfaces;
 using VehicleResale.Infrastructure.Data;
 
 namespace VehicleResale.Infrastructure.Repositories

@@ -17,7 +17,7 @@ namespace VehicleResale.Application.Handlers
             var vehicle = await unitOfWork.Vehicles.GetByIdAsync(request.VehicleId);
             
             if (vehicle == null)
-                throw new InvalidOperationException($"Vehicle with ID {request.VehicleId} not found");
+                throw new InvalidOperationException($"Veículo com ID [{request.VehicleId}] não encontrado");
 
             // Gerar código de pagamento único
             var paymentCode = $"PAY-{Guid.NewGuid():N}".Substring(0, 20);

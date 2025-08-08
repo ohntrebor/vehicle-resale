@@ -1,7 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 using VehicleResale.Application.Commands;
 using VehicleResale.Application.DTOs;
 using VehicleResale.Application.Queries;
@@ -37,7 +35,7 @@ namespace VehicleResale.API.Controllers
         /// <param name="id">ID do veículo</param>
         /// <param name="dto">Dados atualizados do veículo</param>
         /// <returns>Veículo atualizado</returns>
-        [HttpPut("{id}")]
+        [HttpPut("{id:guid}")]
         [ProducesResponseType(typeof(VehicleDto), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -108,9 +106,9 @@ namespace VehicleResale.API.Controllers
             var success = await mediator.Send(command);
             
             if (success)
-                return Ok(new { message = "Payment status updated successfully" });
+                return Ok(new { message = "Status de pagamento atualizado com sucesso!" });
             
-            return NotFound(new { message = "Payment code not found" });
+            return NotFound(new { message = "Código de pagamento não encontrado" });
         }
     }
 }

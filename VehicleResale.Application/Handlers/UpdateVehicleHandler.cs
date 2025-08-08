@@ -14,7 +14,7 @@ namespace VehicleResale.Application.Handlers
             var vehicle = await unitOfWork.Vehicles.GetByIdAsync(request.Id);
             
             if (vehicle == null)
-                throw new InvalidOperationException($"Vehicle with ID {request.Id} not found");
+                throw new InvalidOperationException($"Veículo com o ID [{request.Id}] não encontrado");
 
             vehicle.UpdateDetails(
                 request.Brand,

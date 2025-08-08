@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using System;
 using VehicleResale.Application.DTOs;
 
 namespace VehicleResale.Application.Commands

@@ -113,7 +113,7 @@ public class Vehicle
     public void RegisterSale(string buyerCpf, string paymentCode)
     {
         if (IsSold)
-            throw new InvalidOperationException("Vehicle is already sold");
+            throw new InvalidOperationException("Veículo já está vendido");
 
         BuyerCpf = buyerCpf;
         SaleDate = DateTime.UtcNow;
@@ -126,7 +126,7 @@ public class Vehicle
     public void UpdatePaymentStatus(PaymentStatus status)
     {
         if (!IsSold)
-            throw new InvalidOperationException("Vehicle is not sold");
+            throw new InvalidOperationException("Veículo não está vendido");
 
         PaymentStatus = status;
         
