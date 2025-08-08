@@ -23,6 +23,7 @@ namespace VehicleResale.Application.DTOs
         public string? BuyerCpf { get; set; }
         public DateTime? SaleDate { get; set; }
         public string? PaymentStatus { get; set; }
+        public string? PaymentCode { get; set; }
     }
 
     public class CreateVehicleDto
