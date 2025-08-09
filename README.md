@@ -36,7 +36,7 @@ VehicleResale/
 ### **O que contém:**
 - **Controllers** 📡 - Endpoints REST (recebem requisições HTTP)
 - **Health** 💊 - Health checks (monitoramento)
-- **Program.cs** ⚙️ - Configuração da aplicação (DI, middleware, etc.)
+- **Program.cs** ⚙️ - Configuração da aplicação
 - **appsettings.json** 📄 - Configurações (connection strings, URLs)
 - **VehicleResale.API.http** 📝 - Testes de API
 
@@ -46,7 +46,6 @@ VehicleResale/
 - Chama a camada Application
 - Retorna respostas HTTP
 - Configuração de DI e middleware
-
 ---
 
 ## **🧠 VehicleResale.Application (Camada de Aplicação)**
@@ -66,7 +65,6 @@ VehicleResale/
 - Aplica regras de validação
 - Converte dados entre camadas
 - Implementa casos de uso específicos
-
 ---
 
 ## **💎 VehicleResale.Domain (Camada de Domínio)**
@@ -83,7 +81,6 @@ VehicleResale/
 - Modela as entidades principais
 - Estabelece contratos para outras camadas
 - **NÃO depende de nenhuma outra camada**
-
 ---
 
 ## **🔌 VehicleResale.Infrastructure (Camada de Infraestrutura)**
@@ -136,8 +133,6 @@ VehicleResale/
 | **Domain** | "Regras fundamentais do veículo" |
 | **Infrastructure** | "Salvar/buscar dados no banco" |
 
-**Sua arquitetura está muito bem estruturada!** 🏆
-
 ### 🔧 Padrões Implementados
 
 - **CQRS (Command Query Responsibility Segregation)** com MediatR
@@ -164,7 +159,7 @@ VehicleResale/
 
 - **.NET 8** - Framework principal
 - **Entity Framework Core 8** - ORM para acesso a dados
-- **SQL Server** - Banco de dados relacional
+- **🐘 Postgre** - Banco de dados relacional
 - **Docker** - Containerização
 - **Kubernetes** - Orquestração de containers
 - **Swagger/OpenAPI** - Documentação da API
@@ -178,13 +173,15 @@ VehicleResale/
 
 - Docker e Docker Compose instalados
 - .NET 8 SDK (apenas para desenvolvimento)
-- Kubernetes (kubectl) configurado (para deploy em cluster)
+- Kubernetes (kubectl) configurado
+- PostgreSQL (local ou via Docker)
+- Minikube (para deploy em cluster)
 
-### 🐳 Executando com Docker Compose (Recomendado)
+### 🐳 Executando com Docker Compose
 
 ```bash
 # Clone o repositório
-git clone [URL_DO_REPOSITORIO]
+git clone https://github.com/ohntrebor/vehicle-resale
 cd VehicleResaleAPI
 
 # Inicie os containers
@@ -201,7 +198,7 @@ docker-compose up -d
 # Instale as dependências
 dotnet restore
 
-# Configure o SQL Server local ou ajuste a connection string
+# Configure o 🐘 Postgre local ou ajuste a connection string
 
 # Execute as migrations
 dotnet ef database update -p VehicleResale.Infrastructure -s VehicleResale.API
@@ -210,6 +207,19 @@ dotnet ef database update -p VehicleResale.Infrastructure -s VehicleResale.API
 dotnet run --project VehicleResale.API
 
 # Acesse em: https://localhost:5001 ou http://localhost:5000
+```
+
+### 🐋 Executando com Docker
+# ⚠️ Certifique-se de que o Docker Desktop esteja rodando
+```bash
+# Força rebuild e sobe em background
+docker compose up -d --build
+
+# Acesse em: http://localhost:5000/swagger/index.html
+
+# 📴 Parar containers (mas mantém volumes/dados)
+docker compose down
+
 ```
 
 ### ☸️ Deploy no Kubernetes
@@ -224,7 +234,23 @@ kubectl get all -n vehicle-resale
 # Port-forward para teste local
 kubectl port-forward -n vehicle-resale service/vehicle-resale-api-service 8080:80
 
-# Acesse em: http://localhost:8080
+# Acesse em: http://localhost:8080/swagger/index.html
+```
+
+### ☸️ Deploy com Minikube (com Makefile)
+# ⚠️ Certifique-se de ter o Makefile e Minikube instalado em sua máquina
+
+```bash
+## 🎯 Inicia Minikube e configura ambiente Kubernetes
+make k8s-start
+
+## 🔨 Constrói imagem no ambiente Minikube
+make k8s-build
+
+ ## 🚀 Faz deploy da aplicação no Kubernetes
+make k8s-deploy
+
+# Acesse em: http://localhost:9000/swagger/index.html
 ```
 
 ## 🧪 Testando a API
@@ -301,10 +327,6 @@ Importe o arquivo `VehicleResale.postman_collection.json` no Postman para ter ac
 ## 👥 Autores
 
 - **Robert A. dos Anjos**
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT - veja o arquivo LICENSE para detalhes.
 
 ## 📞 Suporte
 
