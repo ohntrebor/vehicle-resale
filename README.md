@@ -238,7 +238,7 @@ kubectl port-forward -n vehicle-resale service/vehicle-resale-api-service 8080:8
 ```
 
 ### ☸️ Deploy com Minikube (com Makefile)
-# ⚠️ Certifique-se de ter o Makefile e Minikube instalado em sua máquina
+# ⚠️ Certifique-se de ter o Makefile e Minikube instalado em sua máquina *WINDOWS*
 
 ```bash
 ## 🎯 Inicia Minikube e configura ambiente Kubernetes
