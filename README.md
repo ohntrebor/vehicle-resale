@@ -331,3 +331,17 @@ Importe o arquivo `VehicleResale.postman_collection.json` no Postman para ter ac
 ## 📞 Suporte
 
 Para suporte, envie um email para: robert.ads.anjos@gmail.com
+
+## Documentação
+
+Documentação do entregável está em documentation.md
+Para converter a documentação em PDF, usei o comando 
+⚠️ Certifique-se de ter o Pandoc e o wkhtmltopdf instalados, caso queira executar na sua máquina:
+```bash
+choco install pandoc && choco install wkhtmltopdf
+```
+
+
+```bash
+pandoc documentation.md -o VehicleResaleAPI_Documentation.pdf --pdf-engine=wkhtmltopdf --toc --number-sections
+```
