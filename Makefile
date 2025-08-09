@@ -2,7 +2,7 @@
 
 ## 📋 Mostra esta ajuda com todos os comandos disponíveis
 help:
-	@echo "🚀 Vehicle Resale API - Comandos Disponíveis:"
+	@echo "🚀 Vehicle Resale API - Comandos Disponiveis:"
 	@echo ""
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
@@ -17,12 +17,12 @@ restore:
 
 ## 🔨 Compila a aplicação .NET
 build: 
-	@echo "🔨 Compilando aplicação..."
+	@echo "🔨 Compilando aplicacao..."
 	dotnet build
 
 ## ▶️  Executa a aplicação localmente
 run: 
-	@echo "▶️ Iniciando aplicação local..."
+	@echo "▶️ Iniciando aplicacao local..."
 	@echo "🌐 API disponível em: http://localhost:5000"
 	dotnet run --project VehicleResale.API
 
@@ -33,7 +33,7 @@ test:
 
 ## 🧹 Remove arquivos de build e temporários
 clean:
-	@echo "🧹 Limpando arquivos temporários..."
+	@echo "🧹 Limpando arquivos temporarios..."
 	dotnet clean
 	rm -rf */bin */obj
 
@@ -52,7 +52,7 @@ migration-add:
 
 ## ➖ Remove última migration
 migration-remove: 
-	@echo "➖ Removendo última migration..."
+	@echo "➖ Removendo ultima migration..."
 	dotnet ef migrations remove -p VehicleResale.Infrastructure -s VehicleResale.API
 
 ## 🔄 Atualiza banco de dados com migrations pendentes
@@ -77,14 +77,14 @@ docker-build:
 
 ## 🚀 Inicia todos os serviços com Docker Compose
 docker-run: 
-	@echo "🚀 Iniciando serviços com Docker Compose..."
+	@echo "🚀 Iniciando servicos com Docker Compose..."
 	docker-compose up -d
-	@echo "🌐 API disponível em: http://localhost:5000"
-	@echo "🗄️ Banco de dados disponível na porta: 1433"
+	@echo "🌐 API disponivel em: http://localhost:5000"
+	@echo "🗄️ Banco de dados disponivel na porta: 1433"
 
  ## ⏹️  Para todos os serviços do Docker Compose
 docker-stop:
-	@echo "⏹️ Parando serviços do Docker Compose..."
+	@echo "⏹️ Parando servicos do Docker Compose..."
 	docker-compose down
 
 ## 📋 Mostra logs dos containers em tempo real
@@ -135,7 +135,7 @@ k8s-deploy:
 
 ## 🗑️ Remove aplicação do Kubernetes
 k8s-delete:
-	@echo "🗑️ Removendo aplicação do Kubernetes..."
+	@echo "🗑️ Removendo aplicacao do Kubernetes..."
 	kubectl delete -f k8s/
 
 ## 📊 Mostra status dos recursos no Kubernetes
@@ -148,8 +148,8 @@ k8s-status:
 
 ## 🌐 Configurando portal manualmente - port-forward para acessar API (http://localhost:9000/swagger/index.html)
 k8s-port-forward: 
-	@echo "🌐 Configurando acesso à API via port-forward..."
-	@echo "🔗 API disponível em: http://localhost:9000/swagger/index.html"
+	@echo "🌐 Configurando acesso a API via port-forward..."
+	@echo "🔗 API disponivel em: http://localhost:9000/swagger/index.html"
 	@echo "⏹️ Para parar: Ctrl+C"
 	kubectl port-forward -n vehicle-resale service/vehicle-resale-api-service 9000:80
 
@@ -184,21 +184,21 @@ k8s-dashboard:
 
 ## 🔄 NOVO: Deploy rápido após mudanças no código
 k8s-redeploy:
-	@echo "🔄 Fazendo redeploy após mudanças..."
+	@echo "🔄 Fazendo redeploy apos mudancas..."
 	@echo "🔨 Reconstruindo imagem..."
 	@powershell -Command "minikube docker-env | Invoke-Expression; docker build -t vehicle-resale-api:latest ."
 	@echo "🔄 Reiniciando deployment..."
 	kubectl rollout restart deployment/vehicle-resale-api-deployment -n vehicle-resale
 	kubectl rollout status deployment/vehicle-resale-api-deployment -n vehicle-resale
-	@echo "✅ Redeploy concluído!"
-	@echo "🌐 API disponível via: make k8s-port-forward"
+	@echo "✅ Redeploy concluido!"
+	@echo "🌐 API disponivel via: make k8s-port-forward"
 
 ## 🔍 NOVO: Verificar recursos em todos os namespaces
 k8s-check-all:
 	@echo "🔍 Verificando recursos em todos os namespaces..."
 	kubectl get all --all-namespaces | grep vehicle-resale || echo "❌ Nenhum recurso encontrado"
 	@echo ""
-	@echo "📋 Namespaces disponíveis:"
+	@echo "📋 Namespaces disponiveis:"
 	kubectl get namespaces
 
 # ========================================
@@ -217,36 +217,32 @@ full-k8s-setup: k8s-start k8s-build k8s-deploy
 ## 🚀 Setup completo Minikube em um comando único
 k8s-full-deploy:
 	@echo "🚀 Iniciando setup completo do Minikube..."
-	@echo "🎯 1/6 - Iniciando Minikube..."
+	@echo "🎯 1/4 - Iniciando Minikube..."
 	minikube start --driver=docker
-	@echo "🔧 2/6 - Configurando Docker do Minikube..."
+	@echo "🔧 2/4 - Configurando Docker do Minikube..."
 	@powershell -Command "minikube docker-env | Invoke-Expression; docker build -t vehicle-resale-api:latest ."
-	@echo "📁 3/6 - Criando namespace..."
-	kubectl apply -f k8s/namespace.yaml
-	@echo "⚙️ 4/6 - Aplicando configurações..."
-	kubectl apply -f k8s/configmap.yaml k8s/secret.yaml
-	@echo "🚀 5/6 - Fazendo deploy da aplicação..."
+	@echo "🚀 3/4 - Fazendo deploy da aplicacao..."
 	kubectl apply -f k8s/
 	@echo "⏳ Aguardando pods ficarem prontos..."
 	kubectl wait --for=condition=ready pod -l app=vehicle-resale-api -n vehicle-resale --timeout=300s
-	@echo "🌐 6/6 - Configurando port-forward na porta 9000..."
+	@echo "🌐 4/4 - Configurando port-forward na porta 9000..."
 	@echo ""
 	@echo "✅ Setup Minikube completo finalizado!"
 	kubectl port-forward -n vehicle-resale service/vehicle-resale-api-service 9000:80
-	@echo "🔗 API disponível em: http://localhost:9000/swagger/index.html"
+	@echo "🔗 API disponivel em: http://localhost:9000/swagger/index.html"
 	@echo "⏹️ Para parar o port-forward: Ctrl+C"
 
 ## 🧹 Limpeza completa do Minikube e Kubernetes
 k8s-full-clean:
 	@echo "🧹 Iniciando limpeza completa do Minikube..."
-	@echo "🗑️ 1/4 - Removendo aplicação do Kubernetes..."
-	kubectl delete -f k8s/ || echo "⚠️ Alguns recursos já foram removidos"
+	@echo "🗑️ 1/4 - Removendo aplicacao do Kubernetes..."
+	kubectl delete -f k8s/ || echo "⚠️ Alguns recursos ja foram removidos"
 	@echo "🗑️ 2/4 - Removendo namespace..."
-	kubectl delete namespace vehicle-resale || echo "⚠️ Namespace já foi removido"
+	kubectl delete namespace vehicle-resale || echo "⚠️ Namespace ja foi removido"
 	@echo "🗑️ 3/4 - Parando Minikube..."
-	minikube stop || echo "⚠️ Minikube já estava parado"
+	minikube stop || echo "⚠️ Minikube ja estava parado"
 	@echo "🗑️ 4/4 - Removendo cluster Minikube..."
-	minikube delete || echo "⚠️ Cluster já foi removido"
+	minikube delete || echo "⚠️ Cluster ja foi removido"
 	@echo ""
 	@echo "✅ Limpeza completa finalizada!"
 	@echo "💡 Para recriar tudo: make k8s-full-deploy"
