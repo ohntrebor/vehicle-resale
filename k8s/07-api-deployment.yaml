@@ -85,7 +85,7 @@ spec:
     
     spec:
       # ===========================================
-      # Configurações de Segurança (opcional)
+      # Configurações de Segurança
       # ===========================================
       # securityContext:
       #   runAsNonRoot: true
@@ -93,7 +93,7 @@ spec:
       #   fsGroup: 2000
       
       # ===========================================
-      # Service Account (opcional)
+      # Service Account
       # ===========================================
       # serviceAccountName: vehicle-resale-api-sa
       
@@ -113,6 +113,8 @@ spec:
           # IfNotPresent = baixa se não existir localmente
           # Never = usa apenas imagem local (Minikube)
           imagePullPolicy: Never  # Mude para Always em produção
+          
+          
           
           # ===========================================
           # Portas
@@ -247,7 +249,7 @@ spec:
           #     readOnly: true
           
           # ===========================================
-          # Lifecycle Hooks (opcional)
+          # Lifecycle Hooks
           # ===========================================
           # lifecycle:
           #   preStop:
@@ -255,7 +257,7 @@ spec:
           #       command: ["/bin/sh", "-c", "sleep 15"]
       
       # ===========================================
-      # Init Containers (opcional)
+      # Init Containers
       # ===========================================
       # initContainers:
       #   - name: wait-for-db
@@ -271,14 +273,14 @@ spec:
       #       name: app-config
       
       # ===========================================
-      # Node Selection (opcional)
+      # Node Selection
       # ===========================================
       # nodeSelector:
       #   disktype: ssd
       #   environment: production
       
       # ===========================================
-      # Affinity Rules (opcional)
+      # Affinity Rules
       # ===========================================
       # affinity:
       #   podAntiAffinity:
@@ -292,7 +294,7 @@ spec:
       #         topologyKey: kubernetes.io/hostname
       
       # ===========================================
-      # Tolerations (opcional)
+      # Tolerations
       # ===========================================
       # tolerations:
       #   - key: "dedicated"

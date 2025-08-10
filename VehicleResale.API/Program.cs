@@ -9,6 +9,7 @@ using VehicleResale.Application.Validators;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using FluentValidation.AspNetCore;
+using VehicleResale.Infrastructure.Seeders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,7 +51,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.EnableDetailedErrors();
     }
 });
-
 
 // 3. Repositories e Unit of Work
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -130,7 +130,7 @@ app.MapControllers();
 app.MapHealthChecks("/health");
 
 // ===========================================
-// APLICAR MIGRATIONS AUTOMATICAMENTE
+// APLICAR MIGRATIONS E SEED
 // ===========================================
 using (var scope = app.Services.CreateScope())
 {
@@ -152,10 +152,13 @@ using (var scope = app.Services.CreateScope())
             {
                 // Criar banco se não existir e aplicar migrations
                 context.Database.Migrate();
-                // OU usar Migrate() se você tiver migrations criadas:
-                // context.Database.Migrate();
                 
                 logger.LogInformation("Banco de dados pronto!");
+                
+                // 🎲 SEED Data
+                logger.LogInformation("Executando seed de dados...");
+                await VehicleSeedData.SeedAsync(context);
+                
                 break;
             }
             catch (Exception)

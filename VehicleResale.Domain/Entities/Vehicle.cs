@@ -86,7 +86,10 @@ public class Vehicle
     [Column("payment_status")]
     public PaymentStatus PaymentStatus { get; private set; } = PaymentStatus.Pending;
 
-    protected Vehicle() { }
+    protected Vehicle()
+    {
+        PaymentStatus = PaymentStatus.Pending;
+    }
 
     public Vehicle(string brand, string model, int year, string color, decimal price)
     {
