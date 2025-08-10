@@ -1,10 +1,6 @@
 # ===========================================
 # SERVICE - Expõe a API para acesso externo
 # ===========================================
-# Cria um endpoint para acessar a API
-# LoadBalancer = acesso externo (cloud)
-# NodePort = acesso via porta do node (desenvolvimento)
-# ClusterIP = acesso apenas interno
 
 apiVersion: v1
 kind: Service
@@ -47,7 +43,7 @@ spec:
   
   # Para Minikube: use NodePort ou LoadBalancer com tunnel
   # Para Cloud: use LoadBalancer
-  type: LoadBalancer  # Mude para NodePort se preferir
+  type: LoadBalancer
   
   # ===========================================
   # Seletor de Pods
@@ -114,7 +110,7 @@ spec:
   # healthCheckNodePort: 30000
   
   # ===========================================
-  # IPs Externos (opcional)
+  # IPs Externos 
   # ===========================================
   # IPs externos que roteiam para este service
   # externalIPs:

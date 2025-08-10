@@ -1,9 +1,6 @@
 # ===========================================
 # SERVICE - Expõe o PostgreSQL internamente
 # ===========================================
-# Cria um endpoint DNS interno para o banco de dados
-# Outros pods acessam via: postgres-service:5432
-# DNS completo: postgres-service.vehicle-resale.svc.cluster.local
 
 apiVersion: v1
 kind: Service
@@ -55,7 +52,7 @@ spec:
       # nodePort: 30432
   
   # ===========================================
-  # Session Affinity (opcional)
+  # Session Affinity 
   # ===========================================
   # None = requisições distribuídas entre pods
   # ClientIP = requisições do mesmo IP vão pro mesmo pod
@@ -67,7 +64,7 @@ spec:
   #     timeoutSeconds: 10800  # 3 horas
   
   # ===========================================
-  # Configurações Adicionais (opcional)
+  # Configurações Adicionais 
   # ===========================================
   
   # IP do cluster (deixe vazio para auto-atribuição)

@@ -2,8 +2,6 @@
 # PVC - Persistent Volume Claim para PostgreSQL
 # ===========================================
 # Solicita armazenamento persistente para o banco de dados
-# Dados sobrevivem a restarts, crashes e updates do pod
-# IMPORTANTE: Faça backup regular dos dados em produção!
 
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -54,14 +52,14 @@ spec:
   storageClassName: standard
   
   # ===========================================
-  # Volume Mode (opcional)
+  # Volume Mode 
   # ===========================================
   # Filesystem = monta como sistema de arquivos (padrão)
   # Block = monta como dispositivo de bloco raw
   volumeMode: Filesystem
   
   # ===========================================
-  # Selector (opcional)
+  # Selector 
   # ===========================================
   # Permite vincular a um PV específico se necessário
   # selector:

@@ -1,9 +1,7 @@
 # ===========================================
 # DEPLOYMENT - PostgreSQL Database
 # ===========================================
-# Define como o PostgreSQL será executado no cluster
-# Configurado para desenvolvimento/teste
-# Para produção, considere usar operadores como CrunchyData ou Zalando
+
 
 apiVersion: apps/v1
 kind: Deployment

@@ -1,9 +1,6 @@
 # ===========================================
 # CONFIGMAP - Configurações não sensíveis
 # ===========================================
-# Armazena configurações que podem ser alteradas sem rebuild da imagem
-# Usado para variáveis de ambiente e arquivos de configuração
-# IMPORTANTE: NÃO coloque senhas ou dados sensíveis aqui!
 
 apiVersion: v1
 kind: ConfigMap
