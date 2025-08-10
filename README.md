@@ -22,8 +22,11 @@ Seu projeto segue a **Clean Architecture** com separação clara de responsabili
 VehicleResale/
 
 ├── 🎯 VehicleResale.API          # Camada de Apresentação
+|
 ├── 🧠 VehicleResale.Application  # Camada de Aplicação  
+|
 ├── 💎 VehicleResale.Domain       # Camada de Domínio
+|
 └── 🔌 VehicleResale.Infrastructure # Camada de Infraestrutura
 
 
