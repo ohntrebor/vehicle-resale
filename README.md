@@ -170,21 +170,6 @@ VehicleResale/
 - PostgreSQL (local ou via Docker)
 - Minikube (para deploy em cluster)
 
-### 🐳 Executando com Docker Compose
-
-```bash
-# Clone o repositório
-git clone https://github.com/ohntrebor/vehicle-resale
-cd VehicleResaleAPI
-
-# Inicie os containers
-docker-compose up -d
-
-# A API estará disponível em:
-# http://localhost:5000
-# Swagger UI: http://localhost:5000/swagger
-```
-
 ### 💻 Executando Localmente (Desenvolvimento)
 
 ```bash
@@ -192,14 +177,13 @@ docker-compose up -d
 dotnet restore
 
 # Configure o 🐘 Postgre local ou ajuste a connection string
-
 # Execute as migrations
 dotnet ef database update -p VehicleResale.Infrastructure -s VehicleResale.API
 
 # Execute a aplicação
 dotnet run --project VehicleResale.API
 
-# Acesse em: https://localhost:5001 ou http://localhost:5000
+# Abrirá em: https://localhost:7157/swagger/index.html
 ```
 
 ### 🐋 Executando com Docker
@@ -212,7 +196,6 @@ docker compose up -d --build
 
 # 📴 Parar containers (mas mantém volumes/dados)
 docker compose down
-
 ```
 
 ### ☸️ Deploy no Kubernetes
