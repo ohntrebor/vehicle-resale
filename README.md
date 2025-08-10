@@ -1,7 +1,7 @@
 # Arquivos da Raiz do Projeto
 
 ## 1. README.md
-```markdown
+
 # 🚗 Vehicle Resale API
 
 ## 📋 Descrição do Projeto
@@ -19,15 +19,13 @@ Seu projeto segue a **Clean Architecture** com separação clara de responsabili
 
 ## **📋 Visão Geral da Estrutura:**
 
-```
 VehicleResale/
+
 ├── 🎯 VehicleResale.API          # Camada de Apresentação
 ├── 🧠 VehicleResale.Application  # Camada de Aplicação  
 ├── 💎 VehicleResale.Domain       # Camada de Domínio
 └── 🔌 VehicleResale.Infrastructure # Camada de Infraestrutura
-```
 
----
 
 ## **🎯 VehicleResale.API (Camada de Apresentação)**
 
@@ -46,7 +44,7 @@ VehicleResale/
 - Chama a camada Application
 - Retorna respostas HTTP
 - Configuração de DI e middleware
----
+
 
 ## **🧠 VehicleResale.Application (Camada de Aplicação)**
 
@@ -65,7 +63,7 @@ VehicleResale/
 - Aplica regras de validação
 - Converte dados entre camadas
 - Implementa casos de uso específicos
----
+
 
 ## **💎 VehicleResale.Domain (Camada de Domínio)**
 
@@ -81,7 +79,7 @@ VehicleResale/
 - Modela as entidades principais
 - Estabelece contratos para outras camadas
 - **NÃO depende de nenhuma outra camada**
----
+
 
 ## **🔌 VehicleResale.Infrastructure (Camada de Infraestrutura)**
 
@@ -98,7 +96,6 @@ VehicleResale/
 - Gerencia persistência de dados
 - Configurações do Entity Framework
 
----
 
 ## **🔄 Fluxo de Dados (Como funciona):**
 
