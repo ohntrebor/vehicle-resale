@@ -18,6 +18,7 @@ VehicleResale/
 ├── 🎯 VehicleResale.API          # Camada de Apresentação
 <br>
 ├── 🧠 VehicleResale.Application  # Camada de Aplicação
+<br>
 ├── 💎 VehicleResale.Domain       # Camada de Domínio
 <br>
 └── 🔌 VehicleResale.Infrastructure # Camada de Infraestrutura
