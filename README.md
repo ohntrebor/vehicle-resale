@@ -1,7 +1,3 @@
-# Arquivos da Raiz do Projeto
-
-## 1. README.md
-
 # 🚗 Vehicle Resale API
 
 ## 📋 Descrição do Projeto
@@ -17,18 +13,15 @@ API RESTful desenvolvida em **.NET 8** para gerenciamento de revenda de veículo
 
 Seu projeto segue a **Clean Architecture** com separação clara de responsabilidades. Vou explicar cada camada:
 
-## **📋 Visão Geral da Estrutura:**
-
 VehicleResale/
-
+<br>
 ├── 🎯 VehicleResale.API          # Camada de Apresentação
-|
+<br>
 ├── 🧠 VehicleResale.Application  # Camada de Aplicação  
-|
+<br>
 ├── 💎 VehicleResale.Domain       # Camada de Domínio
-|
+<br>
 └── 🔌 VehicleResale.Infrastructure # Camada de Infraestrutura
-
 
 ## **🎯 VehicleResale.API (Camada de Apresentação)**
 
