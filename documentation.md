@@ -13,7 +13,7 @@
 **https://github.com/ohntrebor/vehicle-resale**
 
 ### 🎥 Vídeo Demonstrativo
-**[Link YouTube]**
+**https://youtu.be/ehMrxDCCR5k (15 min)**
 
 ---
 
@@ -44,38 +44,6 @@ docker compose up -d --build
 ```
 **Acesso:** http://localhost:5000/swagger
 
-### 🔧 .NET CLI
-```bash
-dotnet restore
-dotnet run --project src/VehicleResale.API
-```
-
----
-
-## ☸️ Deploy Kubernetes
-
-### 🎯 Minikube (Desenvolvimento Local)
-```bash
-# Setup completo automatizado
-make k8s-full-deploy
-
-# Ou comandos individuais:
-minikube start --driver=docker
-minikube docker-env | Invoke-Expression
-docker build -t vehicle-resale-api:latest .
-kubectl apply -f k8s/
-kubectl port-forward -n vehicle-resale service/vehicle-resale-api-service 9000:80
-```
-**Acesso:** http://localhost:9000
-
-### ☁️ Cluster de Produção
-```bash
-kubectl apply -f k8s/
-kubectl get all -n vehicle-resale
-kubectl port-forward -n vehicle-resale service/vehicle-resale-api-service 8080:80
-```
-
----
 
 ## 📁 Estrutura do Repositório
 
@@ -85,11 +53,10 @@ vehicle-resale/
 ├── Dockerfile                   # Build da aplicação
 ├── docker-compose.yml           # Orquestração local
 ├── Makefile                     # Automação de comandos
-├── src/
-│   ├── VehicleResale.API/          # Controllers & Config
-│   ├── VehicleResale.Application/  # Use Cases & DTOs
-│   ├── VehicleResale.Domain/       # Entidades & Interfaces
-│   └── VehicleResale.Infrastructure/ # EF Core & Repositories
+├── VehicleResale.API/          # Controllers & Config
+├── VehicleResale.Application/  # Use Cases & DTOs
+├── VehicleResale.Domain/       # Entidades & Interfaces
+├── VehicleResale.Infrastructure/ # EF Core & Repositories
 ├── k8s/                         # Manifestos Kubernetes
 │   ├── namespace.yaml              # Namespace
 │   ├── configmap.yaml              # Configurações
@@ -133,7 +100,7 @@ vehicle-resale/
 
 ## 🎬 Demonstração em Vídeo
 
-**Link do YouTube:** [Inserir Link Aqui]
+**Link do YouTube:** https://www.youtube.com/watch?v=ehMrxDCCR5k
 
 O vídeo demonstra:
 - ✅ Execução local com Docker Compose
@@ -172,4 +139,4 @@ O vídeo demonstra:
 
 ---
 
-**🚀 Solução completa implementando as melhores práticas de desenvolvimento e DevOps**
+**🚀 Solução completa implementando as melhores práticas de Arquitetura no desenvolvimento e DevOps**
