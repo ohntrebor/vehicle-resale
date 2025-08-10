@@ -28,8 +28,18 @@ run:
 
 ## 🧪 Executa todos os testes do projeto
 test: 
-	@echo "🧪 Executando testes..."
+	@echo "🧪 Executando todos os testes..."
 	dotnet test --verbosity normal
+
+## 🚀 Executa apenas testes unitários
+test-unit:
+	@echo "🚀 Executando testes unitarios..."
+	dotnet test --verbosity normal --filter "Category=Unit"
+
+## 🗄️ Executa apenas testes de integração (banco em memória)
+test-integration:
+	@echo "🗄️ Executando testes de integracao..."
+	dotnet test --verbosity normal --filter "Category=Integration"
 
 ## 🧹 Remove arquivos de build e temporários
 clean:

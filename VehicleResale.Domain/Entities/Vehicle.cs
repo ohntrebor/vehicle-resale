@@ -18,7 +18,7 @@ public class Vehicle
     /// Marca do veículo
     /// </summary>
     [Column("brand")]
-    public string Brand { get; private set; } 
+    public string Brand { get; private set; }
     
     /// <summary>
     /// Modelo do veículo
@@ -79,12 +79,12 @@ public class Vehicle
     /// </summary>
     [Column("payment_code")]
     public string? PaymentCode { get; private set; }
-    
+
     /// <summary>
     /// Status do pagamento
     /// </summary>
     [Column("payment_status")]
-    public PaymentStatus? PaymentStatus { get; private set; }
+    public PaymentStatus PaymentStatus { get; private set; } = PaymentStatus.Pending;
 
     protected Vehicle() { }
 
@@ -98,6 +98,7 @@ public class Vehicle
         Price = price;
         IsSold = false;
         CreatedAt = DateTime.UtcNow;
+        PaymentStatus = PaymentStatus.Pending;
     }
 
     public void UpdateDetails(string brand, string model, int year, string color, decimal price)
@@ -112,13 +113,20 @@ public class Vehicle
 
     public void RegisterSale(string buyerCpf, string paymentCode)
     {
+        // validações de argumentos
+        if (string.IsNullOrWhiteSpace(buyerCpf))
+            throw new ArgumentException("CPF do comprador é obrigatório", nameof(buyerCpf));
+        
+        if (string.IsNullOrWhiteSpace(paymentCode))
+            throw new ArgumentException("Código de pagamento é obrigatório", nameof(paymentCode));
+
         if (IsSold)
             throw new InvalidOperationException("Veículo já está vendido");
 
         BuyerCpf = buyerCpf;
         SaleDate = DateTime.UtcNow;
         PaymentCode = paymentCode;
-        PaymentStatus = Enums.PaymentStatus.Pending;
+        PaymentStatus = PaymentStatus.Pending;
         IsSold = true;
         UpdatedAt = DateTime.UtcNow;
     }
@@ -131,7 +139,7 @@ public class Vehicle
         PaymentStatus = status;
         
         // Se o pagamento foi cancelado, reverter a venda
-        if (status == Enums.PaymentStatus.Cancelled)
+        if (status == PaymentStatus.Cancelled)
         {
             IsSold = false;
             BuyerCpf = null;

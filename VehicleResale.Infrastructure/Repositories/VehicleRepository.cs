@@ -32,15 +32,15 @@ namespace VehicleResale.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Vehicle> AddAsync(Vehicle vehicle)
+        public async Task<Vehicle> AddAsync(Vehicle Vehicle)
         {
-            await context.Vehicles.AddAsync(vehicle);
-            return vehicle;
+            await context.Vehicles.AddAsync(Vehicle);
+            return Vehicle;
         }
 
-        public async Task UpdateAsync(Vehicle vehicle)
+        public async Task UpdateAsync(Vehicle Vehicle)
         {
-            context.Vehicles.Update(vehicle);
+            context.Vehicles.Update(Vehicle);
             await Task.CompletedTask;
         }
 

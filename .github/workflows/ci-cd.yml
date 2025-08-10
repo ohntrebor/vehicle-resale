@@ -28,34 +28,57 @@ jobs:
         run: dotnet build --no-restore --configuration Release
 
   # Testes unitários
-  test:
-    name: 🧪 Run Tests
+  unit-tests:
+    name: 🧪 Unit Tests
     runs-on: ubuntu-latest
     needs: [build]
-
+  
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
+  
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
-
+  
       - name: Restore dependencies
         run: dotnet restore
-
+  
       - name: Build
         run: dotnet build --no-restore --configuration Release
-
-      - name: Run Tests
-        run: dotnet test --no-build --verbosity normal --configuration Release
-
+  
+      - name: Run Unit Tests
+        run: dotnet test --no-build --verbosity normal --configuration Release --filter "Category=Unit"
+  
+  # Testes de integração
+  integration-tests:
+    name: 🗄️ Integration Tests
+    runs-on: ubuntu-latest
+    needs: [build]
+  
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+  
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+  
+      - name: Restore dependencies
+        run: dotnet restore
+  
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+  
+      - name: Run Integration Tests
+        run: dotnet test --no-build --verbosity normal --configuration Release --filter "Category=Integration"
   # Build da imagem Docker
   docker-build:
     name: 🐋 Docker Build
     runs-on: ubuntu-latest
-    needs: [build, test]
+    needs: [unit-tests, integration-tests]
 
     steps:
       - name: Checkout repository

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VehicleResale.Domain.Entities;
+using VehicleResale.Domain.Enums;
 
 namespace VehicleResale.Infrastructure.Data
 {
@@ -38,6 +39,12 @@ namespace VehicleResale.Infrastructure.Data
 
                 entity.Property(e => e.PaymentCode)
                     .HasMaxLength(50);
+
+                // Configuração do PaymentStatus com valor padrão 0 (Pending)
+                entity.Property(e => e.PaymentStatus)
+                    .HasConversion<int>() // Converte enum para int
+                    .HasDefaultValue(PaymentStatus.Pending) // Valor padrão 0
+                    .IsRequired();
 
                 // Índice- payment_code diferente de null para performance
                 entity.HasIndex(e => e.PaymentCode)
