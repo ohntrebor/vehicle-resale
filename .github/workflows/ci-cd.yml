@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   # Build da solução
   build:
@@ -74,6 +78,7 @@ jobs:
   
       - name: Run Integration Tests
         run: dotnet test --no-build --verbosity normal --configuration Release --filter "Category=Integration"
+
   # Build da imagem Docker
   docker-build:
     name: 🐋 Docker Build
@@ -96,13 +101,15 @@ jobs:
           name: docker-image
           path: vehicle-resale-api.tar
 
-  # Push para registry (apenas em main)
+  # Push para GitHub Container Registry (cria o package)
   docker-push:
     name: 🚀 Docker Push
     runs-on: ubuntu-latest
     needs: [docker-build]
     if: github.ref == 'refs/heads/main'
-
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -115,10 +122,16 @@ jobs:
       - name: Load Docker image
         run: docker load < vehicle-resale-api.tar
 
-      - name: Login to Docker Hub
-        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Tag and Push Docker image
+      - name: Tag and Push to GitHub Container Registry
         run: |
-          docker tag vehicle-resale-api:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/vehicle-resale-api:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/vehicle-resale-api:latest
+          docker tag vehicle-resale-api:${{ github.sha }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          docker tag vehicle-resale-api:${{ github.sha }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}

@@ -192,7 +192,7 @@ k8s-dashboard:
 	@echo "📊 Abrindo dashboard do Kubernetes..."
 	minikube dashboard
 
-## 🔄 NOVO: Deploy rápido após mudanças no código
+## 🔄 Deploy rápido após mudanças no código
 k8s-redeploy:
 	@echo "🔄 Fazendo redeploy apos mudancas..."
 	@echo "🔨 Reconstruindo imagem..."
@@ -203,7 +203,7 @@ k8s-redeploy:
 	@echo "✅ Redeploy concluido!"
 	@echo "🌐 API disponivel via: make k8s-port-forward"
 
-## 🔍 NOVO: Verificar recursos em todos os namespaces
+## 🔍 Verificar recursos em todos os namespaces
 k8s-check-all:
 	@echo "🔍 Verificando recursos em todos os namespaces..."
 	kubectl get all --all-namespaces | grep vehicle-resale || echo "❌ Nenhum recurso encontrado"
